@@ -1,0 +1,17 @@
+services:
+
+  sql-db:
+    image: postgres:15.2
+    container_name: polar-postgres
+    restart: always
+    volumes:
+      - postgres-data:/var/lib/postgresql/data
+    environment:
+      - POSTGRES_DB=polardb_catalog
+      - POSTGRES_USER=oscar
+      - POSTGRES_PASSWORD=oscar
+    ports:
+      - "5432:5432"
+
+volumes:
+  postgres-data:
