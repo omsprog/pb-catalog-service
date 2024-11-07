@@ -18,6 +18,3 @@ spring:
     hikari:
       connection-timeout: 2000 # maximum time (ms) to spend waiting to get a connection from the pool
       maximum-pool-size: 5 # maximum number of connections HikariCP will keep in the pool
-  sql:
-    init:
-      mode: always
