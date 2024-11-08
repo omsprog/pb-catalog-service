@@ -1,8 +1,10 @@
 services:
 
-  sql-db:
-    image: postgres:15.2
+  polar-postgres:
+    image: postgres:14.4
     container_name: polar-postgres
+    ports:
+      - "5432:5432"
     restart: always
     volumes:
       - postgres-data:/var/lib/postgresql/data
@@ -10,8 +12,20 @@ services:
       - POSTGRES_DB=polardb_catalog
       - POSTGRES_USER=oscar
       - POSTGRES_PASSWORD=oscar
+
+  catalog-service:
+    depends_on:
+      - polar-postgres
+    build:
+      context: ./
+      dockerfile: ./Dockerfile
+    container_name: "catalog_service"
     ports:
-      - "5432:5432"
+      - "9001:9001"
+    environment:
+      - SPRING_PROFILES_ACTIVE=testdata
+      - SPRING_DATASOURCE_URL=jdbc:postgresql://polar-postgres:5432/polardb_catalog
+    restart: always
 
 volumes:
   postgres-data:
