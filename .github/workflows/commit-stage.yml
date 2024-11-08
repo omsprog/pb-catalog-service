@@ -29,8 +29,8 @@ jobs:
 
   package:
     name: Package and Publish
-    if: ${{ github.ref == 'ref/heads/main' }}
-    needs: [ build ]
+    needs: build
+    if: github.ref == 'ref/heads/main' && needs.build.result == 'success'
     runs-on: ubuntu-22.04
     permissions:
       contents: read
