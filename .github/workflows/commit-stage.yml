@@ -1,5 +1,8 @@
 name: Commit Stage
-on: push
+on:
+  push:
+    branches:
+      - main
 
 env:
   REGISTRY: ghcr.io
@@ -30,7 +33,7 @@ jobs:
   package:
     name: Package and Publish
     needs: build
-    if: github.ref == 'ref/heads/main' && needs.build.result == 'success'
+    if: needs.build.result == 'success'
     runs-on: ubuntu-22.04
     permissions:
       contents: read
