@@ -11,10 +11,11 @@ env:
 
 jobs:
   build:
-    name: Build and Test
+    name: Build Test Package and Publish
     runs-on: ubuntu-22.04
     permissions:
       contents: read
+      packages: write
       security-events: write
     steps:
       - name: Checkout source code
@@ -29,19 +30,6 @@ jobs:
         run: |
           chmod +x gradlew
           ./gradlew build -x test
-
-  package:
-    name: Package and Publish
-    needs: build
-    if: needs.build.result == 'success'
-    runs-on: ubuntu-22.04
-    permissions:
-      contents: read
-      packages: write
-      security-events: write
-    steps:
-      - name: Checkout source code
-        uses: actions/checkout@v3
       - name: Log in to GitHub Container Registry
         uses: docker/login-action@v2
         with:
